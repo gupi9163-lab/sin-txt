@@ -188,7 +188,7 @@ function selectBuraxilisClass(classNumber) {
     document.getElementById('buraxilisClassTitle').textContent = 
         `${classNumber}-${classNumber === 9 ? 'cu' : 'ci'} sinif buraxılış imtahanı`;
     
-    // Reset inputs
+    // Reset inputs with placeholders
    document.getElementById('azQapali').value = '';
    document.getElementById('azAciq').value = '';
    document.getElementById('riyQapali').value = '';
@@ -422,19 +422,19 @@ function showBlokCalculator(title, subjects, maxScores) {
             <h4>${subject} (maksimum: ${maxScores[index]} bal)</h4>
             <div class="input-row">
                 <label>Düzgün qapalı (max 22):</label>
-                <input type="number" id="blok_${index}_duzgun" min="0" max="22" value="0">
+                <input type="number" id="blok_${index}_duzgun" min="0" max="22" placeholder="0">
             </div>
             <div class="input-row">
                 <label>Səhv qapalı (max 22):</label>
-                <input type="number" id="blok_${index}_sehv" min="0" max="22" value="0">
+                <input type="number" id="blok_${index}_sehv" min="0" max="22" placeholder="0">
             </div>
             <div class="input-row">
                 <label>Açıq (max 5):</label>
-                <input type="number" id="blok_${index}_aciq" min="0" max="5" value="0">
+                <input type="number" id="blok_${index}_aciq" min="0" max="5" placeholder="0">
             </div>
             <div class="input-row">
                 <label>Ətraflı (max 3):</label>
-                <input type="number" id="blok_${index}_etrafli" min="0" max="3" value="0">
+                <input type="number" id="blok_${index}_etrafli" min="0" max="3" placeholder="0">
             </div>
         `;
         subjectsDiv.appendChild(subjectDiv);
@@ -459,12 +459,33 @@ function calculateBlok() {
     
     const scores = [];
     let totalScore = 0;
+    let hasEmptyInput = false;
     
+    // First check if all inputs are filled
     subjects.forEach((subject, index) => {
-        const duzgun = parseInt(document.getElementById(`blok_${index}_duzgun`).value) || 0;
-        const sehv = parseInt(document.getElementById(`blok_${index}_sehv`).value) || 0;
-        const aciq = parseInt(document.getElementById(`blok_${index}_aciq`).value) || 0;
-        const etrafli = parseInt(document.getElementById(`blok_${index}_etrafli`).value) || 0;
+        const duzgunInput = document.getElementById(`blok_${index}_duzgun`).value;
+        const sehvInput = document.getElementById(`blok_${index}_sehv`).value;
+        const aciqInput = document.getElementById(`blok_${index}_aciq`).value;
+        const etrafliInput = document.getElementById(`blok_${index}_etrafli`).value;
+        
+        // Check if any input is empty
+        if (duzgunInput === '' || sehvInput === '' || aciqInput === '' || etrafliInput === '') {
+            hasEmptyInput = true;
+        }
+    });
+    
+    // Show error if any input is empty
+    if (hasEmptyInput) {
+        alert('Zəhmət olmasa bütün xanaları doldurun!');
+        return;
+    }
+    
+    // Calculate scores
+    subjects.forEach((subject, index) => {
+        const duzgun = parseInt(document.getElementById(`blok_${index}_duzgun`).value);
+        const sehv = parseInt(document.getElementById(`blok_${index}_sehv`).value);
+        const aciq = parseInt(document.getElementById(`blok_${index}_aciq`).value);
+        const etrafli = parseInt(document.getElementById(`blok_${index}_etrafli`).value);
         
         // Validate inputs
         if (duzgun > 22 || sehv > 22 || aciq > 5 || etrafli > 3) {
@@ -480,8 +501,12 @@ function calculateBlok() {
         // Açıq və ətraflı: (açıq + 2*ətraflı) * 3.03
         const aciqEtrafliScore = (aciq + 2 * etrafli) * 3.03;
         
-        // Total for this subject
-        let subjectScore = qapaliScore + aciqEtrafliScore;
+        // Total for this subject (not limited by maxScore)
+        let rawSubjectScore = qapaliScore + aciqEtrafliScore;
+        
+        // Calculate actual score as percentage of maxScore
+        // Məsələn: 80 bal çıxıbsa 150 ballıq fənn üçün: (80/100)*150 = 120 bal
+        let subjectScore = (rawSubjectScore / 100) * maxScores[index];
         subjectScore = Math.min(subjectScore, maxScores[index]);
         
         scores.push({ subject, score: subjectScore, maxScore: maxScores[index] });

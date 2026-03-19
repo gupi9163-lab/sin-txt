@@ -189,21 +189,36 @@ function selectBuraxilisClass(classNumber) {
         `${classNumber}-${classNumber === 9 ? 'cu' : 'ci'} sinif buraxılış imtahanı`;
     
     // Reset inputs with placeholders
-   document.getElementById('azQapali').value = '';
-   document.getElementById('azAciq').value = '';
-   document.getElementById('riyQapali').value = '';
-   document.getElementById('riyAciq').value = '';
-   document.getElementById('riyEtrafli').value = '';
-   document.getElementById('xariciQapali').value = '';
-   document.getElementById('xariciAciq').value = '';
+    document.getElementById('azQapali').value = '';
+    document.getElementById('azAciq').value = '';
+    document.getElementById('riyQapali').value = '';
+    document.getElementById('riyAciq').value = '';
+    document.getElementById('riyEtrafli').value = '';
+    
+    // Xarici dil inputs - different for 9th grade
+    if (classNumber === 9) {
+        document.getElementById('xariciSecim').value = '';
+        document.getElementById('xariciQapali').value = '';
+        document.getElementById('xariciAciq').value = '';
+        document.getElementById('xariciYazili').value = '';
+        
+        document.getElementById('xariciSecim').placeholder = '0';
+        document.getElementById('xariciQapali').placeholder = '0';
+        document.getElementById('xariciAciq').placeholder = '0';
+        document.getElementById('xariciYazili').placeholder = '0';
+    } else {
+        document.getElementById('xariciQapali11').value = '';
+        document.getElementById('xariciAciq11').value = '';
+        
+        document.getElementById('xariciQapali11').placeholder = '0';
+        document.getElementById('xariciAciq11').placeholder = '0';
+    }
 
-   document.getElementById('azQapali').placeholder = '0';
-   document.getElementById('azAciq').placeholder = '0';
-   document.getElementById('riyQapali').placeholder = '0';
-   document.getElementById('riyAciq').placeholder = '0';
-   document.getElementById('riyEtrafli').placeholder = '0';
-   document.getElementById('xariciQapali').placeholder = '0';
-   document.getElementById('xariciAciq').placeholder = '0';
+    document.getElementById('azQapali').placeholder = '0';
+    document.getElementById('azAciq').placeholder = '0';
+    document.getElementById('riyQapali').placeholder = '0';
+    document.getElementById('riyAciq').placeholder = '0';
+    document.getElementById('riyEtrafli').placeholder = '0';
     
     // Hide result
     document.getElementById('buraxilisResult').classList.add('hidden');
@@ -223,12 +238,62 @@ function calculateBuraxilis() {
     const riyQapali = parseInt(document.getElementById('riyQapali').value) || 0;
     const riyAciq = parseInt(document.getElementById('riyAciq').value) || 0;
     const riyEtrafli = parseInt(document.getElementById('riyEtrafli').value) || 0;
-    const xariciQapali = parseInt(document.getElementById('xariciQapali').value) || 0;
-    const xariciAciq = parseInt(document.getElementById('xariciAciq').value) || 0;
     
-    // Validate inputs
-    if (azQapali > 20 || azAciq > 10 || riyQapali > 13 || riyAciq > 5 || 
-        riyEtrafli > 7 || xariciQapali > 23 || xariciAciq > 7) {
+    let xariciScore;
+    
+    if (selectedBuraxilisClass === 9) {
+        // 9-cu sinif xarici dil - yeni düstur
+        const xariciSecim = parseInt(document.getElementById('xariciSecim').value) || 0;
+        const xariciQapali = parseInt(document.getElementById('xariciQapali').value) || 0;
+        const xariciAciq = parseInt(document.getElementById('xariciAciq').value) || 0;
+        const xariciYazili = parseFloat(document.getElementById('xariciYazili').value) || 0;
+        
+        // Validate inputs for 9th grade
+        if (xariciSecim > 4 || xariciQapali > 22 || xariciAciq > 2 || xariciYazili < 0 || xariciYazili > 5) {
+            alert('Zəhmət olmasa düzgün qiymətlər daxil edin!\nSeçim: max 4\nQapalı: max 22\nAçıq: max 2\nYazılı: 0-5 aralığında');
+            return;
+        }
+        
+        // Calculate selection score
+        let secimScore = 0;
+        if (xariciSecim === 4) {
+            secimScore = 1;
+        } else if (xariciSecim === 3) {
+            secimScore = 0.5;
+        } else {
+            secimScore = 0;
+        }
+        
+        // Calculate xarici dil score using new formula
+        // Seçim (1 bal) + Açıq (2×2=4 bal) + Qapalı (22×1=22 bal) + Yazılı (0-5 bal) = max 32 bal
+        const xariciRawScore = secimScore + (xariciAciq * 1) + (xariciQapali * 1) + xariciYazili;
+        
+        // Apply formula: (cəmi × 100) ÷ 30
+        xariciScore = (xariciRawScore * 100) / 30;
+        xariciScore = Math.min(xariciScore, 100);
+        
+    } else {
+        // 11-ci sinif xarici dil - köhnə düstur
+        const xariciQapali11 = parseInt(document.getElementById('xariciQapali11').value) || 0;
+        const xariciAciq11 = parseInt(document.getElementById('xariciAciq11').value) || 0;
+        
+        // Validate inputs for 11th grade
+        if (xariciQapali11 > 23 || xariciAciq11 > 7) {
+            alert('Zəhmət olmasa düzgün qiymətlər daxil edin!');
+            return;
+        }
+        
+        // Perfect score check for 11th grade
+        if (xariciQapali11 === 23 && xariciAciq11 === 7) {
+            xariciScore = 100;
+        } else {
+            xariciScore = 2.7 * (2 * xariciAciq11 + xariciQapali11);
+            xariciScore = Math.min(xariciScore, 100);
+        }
+    }
+    
+    // Validate Azərbaycan dili and Riyaziyyat inputs
+    if (azQapali > 20 || azAciq > 10 || riyQapali > 13 || riyAciq > 5 || riyEtrafli > 7) {
         alert('Zəhmət olmasa düzgün qiymətlər daxil edin!');
         return;
     }
@@ -241,17 +306,6 @@ function calculateBuraxilis() {
     // Riyaziyyat: 3.125 * (2*ətraflı + açıq + qapalı)
     let riyScore = 3.125 * (2 * riyEtrafli + riyAciq + riyQapali);
     riyScore = Math.min(riyScore, 100);
-    
-    // Xarici dil: Perfect score check first, then formula
-    let xariciScore;
-    if (xariciQapali === 23 && xariciAciq === 7) {
-        // Perfect score: 100 bal
-        xariciScore = 100;
-    } else {
-        // Normal formula: 2.7 * (2*açıq + qapalı)
-        xariciScore = 2.7 * (2 * xariciAciq + xariciQapali);
-        xariciScore = Math.min(xariciScore, 100);
-    }
     
     // Total score
     let totalScore = azScore + riyScore + xariciScore;

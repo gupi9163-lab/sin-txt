@@ -491,9 +491,9 @@ function calculateBlok() {
         let finalScore = (percent / 100) * maxScores[index];
 
 // maksimum limiti keçməsin
-      finalScore = Math.min(finalScore, maxScores[index]);
+        finalScore = Math.min(finalScore, maxScores[index]);
 
-      scores.push({ subject, score: finalScore, maxScore: maxScores[index] });
+        scores.push({ subject, score: finalScore, maxScore: maxScores[index] });
     });
     
     totalScore = Math.min(totalScore, 400);

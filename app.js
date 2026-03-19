@@ -242,9 +242,16 @@ function calculateBuraxilis() {
     let riyScore = 3.125 * (2 * riyEtrafli + riyAciq + riyQapali);
     riyScore = Math.min(riyScore, 100);
     
-    // Xarici dil: 2.7 * (2*açıq + qapalı)
-    let xariciScore = 2.7 * (2 * xariciAciq + xariciQapali);
-    xariciScore = Math.min(xariciScore, 100);
+    // Xarici dil: Perfect score check first, then formula
+    let xariciScore;
+    if (xariciQapali === 23 && xariciAciq === 7) {
+        // Perfect score: 100 bal
+        xariciScore = 100;
+    } else {
+        // Normal formula: 2.7 * (2*açıq + qapalı)
+        xariciScore = 2.7 * (2 * xariciAciq + xariciQapali);
+        xariciScore = Math.min(xariciScore, 100);
+    }
     
     // Total score
     let totalScore = azScore + riyScore + xariciScore;
@@ -493,21 +500,34 @@ function calculateBlok() {
             return;
         }
         
-        // Calculate score using provided formula
-        // Qapalı: (düzgün - 0.25*səhv) * 3.03
-        let qapaliScore = (duzgun - 0.25 * sehv) * 3.03;
-        if (qapaliScore < 0) qapaliScore = 0;
+        // Validate that duzgun + sehv <= 22
+        if (duzgun + sehv > 22) {
+            alert(`${subject} fənni üçün düzgün və səhv qapalıların cəmi 22-dən çox ola bilməz!`);
+            return;
+        }
         
-        // Açıq və ətraflı: (açıq + 2*ətraflı) * 3.03
-        const aciqEtrafliScore = (aciq + 2 * etrafli) * 3.03;
-        
-        // Total for this subject (not limited by maxScore)
-        let rawSubjectScore = qapaliScore + aciqEtrafliScore;
-        
-        // Calculate actual score as percentage of maxScore
-        // Məsələn: 80 bal çıxıbsa 150 ballıq fənn üçün: (80/100)*150 = 120 bal
-        let subjectScore = (rawSubjectScore / 100) * maxScores[index];
-        subjectScore = Math.min(subjectScore, maxScores[index]);
+        // Check for perfect score: 22 düzgün, 0 səhv, 5 açıq, 3 ətraflı = 100% (maksimum bal)
+        let subjectScore;
+        if (duzgun === 22 && sehv === 0 && aciq === 5 && etrafli === 3) {
+            // Perfect score: maksimum bal
+            subjectScore = maxScores[index];
+        } else {
+            // Calculate score using provided formula
+            // Qapalı: (düzgün - 0.25*səhv) * 3.03
+            let qapaliScore = (duzgun - 0.25 * sehv) * 3.03;
+            if (qapaliScore < 0) qapaliScore = 0;
+            
+            // Açıq və ətraflı: (açıq + 2*ətraflı) * 3.03
+            const aciqEtrafliScore = (aciq + 2 * etrafli) * 3.03;
+            
+            // Total for this subject (not limited by maxScore)
+            let rawSubjectScore = qapaliScore + aciqEtrafliScore;
+            
+            // Calculate actual score as percentage of maxScore
+            // Məsələn: 80 bal çıxıbsa 150 ballıq fənn üçün: (80/100)*150 = 120 bal
+            subjectScore = (rawSubjectScore / 100) * maxScores[index];
+            subjectScore = Math.min(subjectScore, maxScores[index]);
+        }
         
         scores.push({ subject, score: subjectScore, maxScore: maxScores[index] });
         totalScore += subjectScore;

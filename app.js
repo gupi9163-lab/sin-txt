@@ -481,16 +481,19 @@ function calculateBlok() {
         // Qapalı: (düzgün - 0.25*səhv) * 3.03
         let qapaliScore = (duzgun - 0.25 * sehv) * 3.03;
         if (qapaliScore < 0) qapaliScore = 0;
-        
-        // Açıq və ətraflı: (açıq + 2*ətraflı) * 3.03
+
         const aciqEtrafliScore = (aciq + 2 * etrafli) * 3.03;
-        
-        // Total for this subject
-        let subjectScore = qapaliScore + aciqEtrafliScore;
-        subjectScore = Math.min(subjectScore, maxScores[index]);
-        
-        scores.push({ subject, score: subjectScore, maxScore: maxScores[index] });
-        totalScore += subjectScore;
+
+// BU ARTIQ FAİZDİR
+        let percent = qapaliScore + aciqEtrafliScore;
+
+// FAİZİ REAL BALA ÇEVİR
+       let finalScore = (percent / 100) * maxScores[index];
+
+// maksimum limiti keçməsin
+      finalScore = Math.min(finalScore, maxScores[index]);
+
+      scores.push({ subject, score: finalScore, maxScore: maxScores[index] });
     });
     
     totalScore = Math.min(totalScore, 400);

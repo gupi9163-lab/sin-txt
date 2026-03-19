@@ -189,13 +189,21 @@ function selectBuraxilisClass(classNumber) {
         `${classNumber}-${classNumber === 9 ? 'cu' : 'ci'} sinif buraxılış imtahanı`;
     
     // Reset inputs
-    document.getElementById('azQapali').value = 0;
-    document.getElementById('azAciq').value = 0;
-    document.getElementById('riyQapali').value = 0;
-    document.getElementById('riyAciq').value = 0;
-    document.getElementById('riyEtrafli').value = 0;
-    document.getElementById('xariciQapali').value = 0;
-    document.getElementById('xariciAciq').value = 0;
+   document.getElementById('azQapali').value = '';
+   document.getElementById('azAciq').value = '';
+   document.getElementById('riyQapali').value = '';
+   document.getElementById('riyAciq').value = '';
+   document.getElementById('riyEtrafli').value = '';
+   document.getElementById('xariciQapali').value = '';
+   document.getElementById('xariciAciq').value = '';
+
+   document.getElementById('azQapali').placeholder = '0';
+   document.getElementById('azAciq').placeholder = '0';
+   document.getElementById('riyQapali').placeholder = '0';
+   document.getElementById('riyAciq').placeholder = '0';
+   document.getElementById('riyEtrafli').placeholder = '0';
+   document.getElementById('xariciQapali').placeholder = '0';
+   document.getElementById('xariciAciq').placeholder = '0';
     
     // Hide result
     document.getElementById('buraxilisResult').classList.add('hidden');

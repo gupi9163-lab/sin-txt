@@ -469,10 +469,15 @@ function calculateBlok() {
     let totalScore = 0;
     
     subjects.forEach((subject, index) => {
-        const duzgun = parseInt(document.getElementById(`blok_${index}_duzgun`).value) || 0;
-        const sehv = parseInt(document.getElementById(`blok_${index}_sehv`).value) || 0;
-        const aciq = parseInt(document.getElementById(`blok_${index}_aciq`).value) || 0;
-        const etrafli = parseInt(document.getElementById(`blok_${index}_etrafli`).value) || 0;
+        const duzgunVal = document.getElementById(`blok_${index}_duzgun`).value;
+        const sehvVal = document.getElementById(`blok_${index}_sehv`).value;
+        const aciqVal = document.getElementById(`blok_${index}_aciq`).value;
+        const etrafliVal = document.getElementById(`blok_${index}_etrafli`).value;
+
+        const duzgun = duzgunVal === '' ? null : parseInt(duzgunVal);
+        const sehv = sehvVal === '' ? null : parseInt(sehvVal);
+        const aciq = aciqVal === '' ? null : parseInt(aciqVal);
+        const etrafli = etrafliVal === '' ? null : parseInt(etrafliVal);
         
         // Validate inputs
         if (duzgun > 22 || sehv > 22 || aciq > 5 || etrafli > 3) {

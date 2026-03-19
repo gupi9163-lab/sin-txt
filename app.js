@@ -496,7 +496,7 @@ function calculateBlok() {
         scores.push({ subject, score: finalScore, maxScore: maxScores[index] });
     });
     
-    totalScore = Math.min(finalScore, 400);
+    totalScore = Math.min(totalScore, 400);
     
     // Determine grade
     let grade = '';

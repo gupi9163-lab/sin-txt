@@ -65,6 +65,7 @@
         </div>
 
         <!-- Buraxılış Bal Hesablama -->
+<!-- Buraxılış Bal Hesablama -->
 <div id="buraxilis" class="section hidden">
     <button class="back-button" onclick="goBack()">← Geri</button>
     <h2 class="section-title">Buraxılış Bal Hesablama</h2>
@@ -109,8 +110,8 @@
         </div>
         
         <!-- 9-cu sinif xarici dil (yeni düstur) -->
-        <div id="xarici9" class="subject-group">
-            <h4>Xarici dil (9-cu sinif)</h4>
+        <div id="xarici9" class="subject-group hidden">
+            <h4>Xarici dil</h4>
             <div class="input-row">
                 <label>Seçim sualı (4 suala cavab, max 4 düzgün):</label>
                 <input type="number" id="xariciSecim" min="0" max="4" placeholder="0">
@@ -132,7 +133,7 @@
         
         <!-- 11-ci sinif xarici dil (köhnə düstur) -->
         <div id="xarici11" class="subject-group hidden">
-            <h4>Xarici dil (11-ci sinif)</h4>
+            <h4>Xarici dil</h4>
             <div class="input-row">
                 <label>Qapalı sual (max 23):</label>
                 <input type="number" id="xariciQapali11" min="0" max="23" placeholder="0">
@@ -149,59 +150,6 @@
     </div>
 </div>
 
-<script>
-// Show/hide xarici dil sections based on class
-function selectBuraxilisClass(classNumber) {
-    selectedBuraxilisClass = classNumber;
-    
-    // Hide class select
-    document.getElementById('buraxilisClassSelect').classList.add('hidden');
-    
-    // Show calculator
-    const calculator = document.getElementById('buraxilisCalculator');
-    calculator.classList.remove('hidden');
-    
-    // Set title
-    document.getElementById('buraxilisClassTitle').textContent = 
-        `${classNumber}-${classNumber === 9 ? 'cu' : 'ci'} sinif buraxılış imtahanı`;
-    
-    // Show/hide appropriate xarici dil section
-    if (classNumber === 9) {
-        document.getElementById('xarici9').classList.remove('hidden');
-        document.getElementById('xarici11').classList.add('hidden');
-    } else {
-        document.getElementById('xarici9').classList.add('hidden');
-        document.getElementById('xarici11').classList.remove('hidden');
-    }
-    
-    // Reset inputs with placeholders
-    document.getElementById('azQapali').value = '';
-    document.getElementById('azAciq').value = '';
-    document.getElementById('riyQapali').value = '';
-    document.getElementById('riyAciq').value = '';
-    document.getElementById('riyEtrafli').value = '';
-    
-    if (classNumber === 9) {
-        document.getElementById('xariciSecim').value = '';
-        document.getElementById('xariciQapali').value = '';
-        document.getElementById('xariciAciq').value = '';
-        document.getElementById('xariciYazili').value = '';
-    } else {
-        document.getElementById('xariciQapali11').value = '';
-        document.getElementById('xariciAciq11').value = '';
-    }
-    
-    // Hide result
-    document.getElementById('buraxilisResult').classList.add('hidden');
-    
-    // Save navigation state
-    navigationHistory.push({
-        section: 'buraxilis',
-        subsection: 'calculator',
-        scrollPosition: 0
-    });
-}
-</script>
 
 
         <!-- Blok Bal Hesablama -->

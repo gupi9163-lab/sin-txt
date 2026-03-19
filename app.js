@@ -475,28 +475,28 @@ function calculateBlok() {
         if (duzgun > 22 || sehv > 22 || aciq > 5 || etrafli > 3) {
             alert('Zəhmət olmasa düzgün qiymətlər daxil edin!');
             return;
-        }
+    }
         
         // Calculate score using provided formula
         // Qapalı: (düzgün - 0.25*səhv) * 3.03
-        let qapaliScore = (duzgun - 0.25 * sehv) * 3.03;
-        if (qapaliScore < 0) qapaliScore = 0;
+        let totalScore = 0;
 
-        const aciqEtrafliScore = (aciq + 2 * etrafli) * 3.03;
-
-// BU ARTIQ FAİZDİR
-        let percent = qapaliScore + aciqEtrafliScore;
-
-// FAİZİ REAL BALA ÇEVİR
-        let finalScore = (percent / 100) * maxScores[index];
-
-// maksimum limiti keçməsin
-        finalScore = Math.min(finalScore, maxScores[index]);
-
-        scores.push({ subject, score: finalScore, maxScore: maxScores[index] });
-    });
+        array.forEach((item, index) => {
+           let qapaliScore = (duzgun - 0.25 * sehv) * 3.03;
+           if (qapaliScore < 0) qapaliScore = 0;
     
-    totalScore = Math.min(finalScore, 400);
+           const aciqEtrafliScore = (aciq + 2 * etrafli) * 3.03;
+    
+           let percent = qapaliScore + aciqEtrafliScore;
+           let finalScore = (percent / 100) * maxScores[index];
+           finalScore = Math.min(finalScore, maxScores[index]);
+
+          scores.push({ subject, score: finalScore, maxScore: maxScores[index] });
+    
+          totalScore += finalScore;           // ← burda cəmləyirik
+    });
+
+    totalScore = Math.min(totalScore, 400);   // ümumi balı 400-ə limitləyirik
     
     // Determine grade
     let grade = '';

@@ -218,21 +218,13 @@ function selectBuraxilisClass(classNumber) {
 
 function calculateBuraxilis() {
     // Get input values
-    document.getElementById('azQapali').value = '';
-    document.getElementById('azAciq').value = '';
-    document.getElementById('riyQapali').value = '';
-    document.getElementById('riyAciq').value = '';
-    document.getElementById('riyEtrafli').value = '';
-    document.getElementById('xariciQapali').value = '';
-    document.getElementById('xariciAciq').value = '';
-
-    document.getElementById('azQapali').placeholder = '0';
-    document.getElementById('azAciq').placeholder = '0';
-    document.getElementById('riyQapali').placeholder = '0';
-    document.getElementById('riyAciq').placeholder = '0';
-    document.getElementById('riyEtrafli').placeholder = '0';
-    document.getElementById('xariciQapali').placeholder = '0';
-    document.getElementById('xariciAciq').placeholder = '0';
+    const azQapali = parseInt(document.getElementById('azQapali').value) || 0;
+    const azAciq = parseInt(document.getElementById('azAciq').value) || 0;
+    const riyQapali = parseInt(document.getElementById('riyQapali').value) || 0;
+    const riyAciq = parseInt(document.getElementById('riyAciq').value) || 0;
+    const riyEtrafli = parseInt(document.getElementById('riyEtrafli').value) || 0;
+    const xariciQapali = parseInt(document.getElementById('xariciQapali').value) || 0;
+    const xariciAciq = parseInt(document.getElementById('xariciAciq').value) || 0;
     
     // Validate inputs
     if (azQapali > 20 || azAciq > 10 || riyQapali > 13 || riyAciq > 5 || 

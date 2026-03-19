@@ -65,66 +65,144 @@
         </div>
 
         <!-- Buraxılış Bal Hesablama -->
-        <div id="buraxilis" class="section hidden">
-            <button class="back-button" onclick="goBack()">← Geri</button>
-            <h2 class="section-title">Buraxılış Bal Hesablama</h2>
-            
-            <div id="buraxilisClassSelect" class="class-select">
-                <h3>Sinif seçin:</h3>
-                <div class="button-group">
-                    <button class="select-button" onclick="selectBuraxilisClass(9)">9-cu sinif</button>
-                    <button class="select-button" onclick="selectBuraxilisClass(11)">11-ci sinif</button>
-                </div>
+<div id="buraxilis" class="section hidden">
+    <button class="back-button" onclick="goBack()">← Geri</button>
+    <h2 class="section-title">Buraxılış Bal Hesablama</h2>
+    
+    <div id="buraxilisClassSelect" class="class-select">
+        <h3>Sinif seçin:</h3>
+        <div class="button-group">
+            <button class="select-button" onclick="selectBuraxilisClass(9)">9-cu sinif</button>
+            <button class="select-button" onclick="selectBuraxilisClass(11)">11-ci sinif</button>
+        </div>
+    </div>
+    
+    <div id="buraxilisCalculator" class="calculator hidden">
+        <h3 id="buraxilisClassTitle"></h3>
+        
+        <div class="subject-group">
+            <h4>Azərbaycan dili</h4>
+            <div class="input-row">
+                <label>Qapalı sual (max 20):</label>
+                <input type="number" id="azQapali" min="0" max="20" placeholder="0">
             </div>
-            
-            <div id="buraxilisCalculator" class="calculator hidden">
-                <h3 id="buraxilisClassTitle"></h3>
-                
-                <div class="subject-group">
-                    <h4>Azərbaycan dili</h4>
-                    <div class="input-row">
-                        <label>Qapalı sual (max 20):</label>
-                        <input type="number" id="azQapali" min="0" max="20" value="0">
-                    </div>
-                    <div class="input-row">
-                        <label>Açıq sual (max 10):</label>
-                        <input type="number" id="azAciq" min="0" max="10" value="0">
-                    </div>
-                </div>
-                
-                <div class="subject-group">
-                    <h4>Riyaziyyat</h4>
-                    <div class="input-row">
-                        <label>Qapalı sual (max 13):</label>
-                        <input type="number" id="riyQapali" min="0" max="13" value="0">
-                    </div>
-                    <div class="input-row">
-                        <label>Açıq sual (max 5):</label>
-                        <input type="number" id="riyAciq" min="0" max="5" value="0">
-                    </div>
-                    <div class="input-row">
-                        <label>Ətraflı sual (max 7):</label>
-                        <input type="number" id="riyEtrafli" min="0" max="7" value="0">
-                    </div>
-                </div>
-                
-                <div class="subject-group">
-                    <h4>Xarici dil</h4>
-                    <div class="input-row">
-                        <label>Qapalı sual (max 23):</label>
-                        <input type="number" id="xariciQapali" min="0" max="23" value="0">
-                    </div>
-                    <div class="input-row">
-                        <label>Açıq sual (max 7):</label>
-                        <input type="number" id="xariciAciq" min="0" max="7" value="0">
-                    </div>
-                </div>
-                
-                <button class="calculate-button" onclick="calculateBuraxilis()">Hesabla</button>
-                
-                <div id="buraxilisResult" class="result hidden"></div>
+            <div class="input-row">
+                <label>Açıq sual (max 10):</label>
+                <input type="number" id="azAciq" min="0" max="10" placeholder="0">
             </div>
         </div>
+        
+        <div class="subject-group">
+            <h4>Riyaziyyat</h4>
+            <div class="input-row">
+                <label>Qapalı sual (max 13):</label>
+                <input type="number" id="riyQapali" min="0" max="13" placeholder="0">
+            </div>
+            <div class="input-row">
+                <label>Açıq sual (max 5):</label>
+                <input type="number" id="riyAciq" min="0" max="5" placeholder="0">
+            </div>
+            <div class="input-row">
+                <label>Ətraflı sual (max 7):</label>
+                <input type="number" id="riyEtrafli" min="0" max="7" placeholder="0">
+            </div>
+        </div>
+        
+        <!-- 9-cu sinif xarici dil (yeni düstur) -->
+        <div id="xarici9" class="subject-group">
+            <h4>Xarici dil (9-cu sinif)</h4>
+            <div class="input-row">
+                <label>Seçim sualı (4 suala cavab, max 4 düzgün):</label>
+                <input type="number" id="xariciSecim" min="0" max="4" placeholder="0">
+                <small style="display: block; color: #666; margin-top: 5px;">4 doğru = 1 bal, 3 doğru = 0.5 bal, 2 və az = 0 bal</small>
+            </div>
+            <div class="input-row">
+                <label>Qapalı sual (max 22):</label>
+                <input type="number" id="xariciQapali" min="0" max="22" placeholder="0">
+            </div>
+            <div class="input-row">
+                <label>Açıq sual (max 2):</label>
+                <input type="number" id="xariciAciq" min="0" max="2" placeholder="0">
+            </div>
+            <div class="input-row">
+                <label>Yazılı (0-5 aralığında):</label>
+                <input type="number" id="xariciYazili" min="0" max="5" step="0.1" placeholder="0">
+            </div>
+        </div>
+        
+        <!-- 11-ci sinif xarici dil (köhnə düstur) -->
+        <div id="xarici11" class="subject-group hidden">
+            <h4>Xarici dil (11-ci sinif)</h4>
+            <div class="input-row">
+                <label>Qapalı sual (max 23):</label>
+                <input type="number" id="xariciQapali11" min="0" max="23" placeholder="0">
+            </div>
+            <div class="input-row">
+                <label>Açıq sual (max 7):</label>
+                <input type="number" id="xariciAciq11" min="0" max="7" placeholder="0">
+            </div>
+        </div>
+        
+        <button class="calculate-button" onclick="calculateBuraxilis()">Hesabla</button>
+        
+        <div id="buraxilisResult" class="result hidden"></div>
+    </div>
+</div>
+
+<script>
+// Show/hide xarici dil sections based on class
+function selectBuraxilisClass(classNumber) {
+    selectedBuraxilisClass = classNumber;
+    
+    // Hide class select
+    document.getElementById('buraxilisClassSelect').classList.add('hidden');
+    
+    // Show calculator
+    const calculator = document.getElementById('buraxilisCalculator');
+    calculator.classList.remove('hidden');
+    
+    // Set title
+    document.getElementById('buraxilisClassTitle').textContent = 
+        `${classNumber}-${classNumber === 9 ? 'cu' : 'ci'} sinif buraxılış imtahanı`;
+    
+    // Show/hide appropriate xarici dil section
+    if (classNumber === 9) {
+        document.getElementById('xarici9').classList.remove('hidden');
+        document.getElementById('xarici11').classList.add('hidden');
+    } else {
+        document.getElementById('xarici9').classList.add('hidden');
+        document.getElementById('xarici11').classList.remove('hidden');
+    }
+    
+    // Reset inputs with placeholders
+    document.getElementById('azQapali').value = '';
+    document.getElementById('azAciq').value = '';
+    document.getElementById('riyQapali').value = '';
+    document.getElementById('riyAciq').value = '';
+    document.getElementById('riyEtrafli').value = '';
+    
+    if (classNumber === 9) {
+        document.getElementById('xariciSecim').value = '';
+        document.getElementById('xariciQapali').value = '';
+        document.getElementById('xariciAciq').value = '';
+        document.getElementById('xariciYazili').value = '';
+    } else {
+        document.getElementById('xariciQapali11').value = '';
+        document.getElementById('xariciAciq11').value = '';
+    }
+    
+    // Hide result
+    document.getElementById('buraxilisResult').classList.add('hidden');
+    
+    // Save navigation state
+    navigationHistory.push({
+        section: 'buraxilis',
+        subsection: 'calculator',
+        scrollPosition: 0
+    });
+}
+</script>
+
 
         <!-- Blok Bal Hesablama -->
         <div id="blok" class="section hidden">

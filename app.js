@@ -488,7 +488,7 @@ function calculateBlok() {
         let percent = qapaliScore + aciqEtrafliScore;
 
 // FAİZİ REAL BALA ÇEVİR
-       let finalScore = (percent / 100) * maxScores[index];
+        let finalScore = (percent / 100) * maxScores[index];
 
 // maksimum limiti keçməsin
       finalScore = Math.min(finalScore, maxScores[index]);

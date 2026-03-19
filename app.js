@@ -316,79 +316,188 @@ function calculateBuraxilis() {
 // ========================================
 // BLOK BAL HESABLAMA
 // ========================================
+let selectedBlokGroup = null;
+let selectedBlokSubGroup = null;
+let blokSubjects = [];
+
+const blokGroupData = {
+    1: {
+        name: '1-ci qrup',
+        subGroups: {
+            'RI': { name: 'Rİ', subjects: ['Riyaziyyat', 'Fizika', 'İnformatika'], maxScores: [150, 150, 100] },
+            'RK': { name: 'RK', subjects: ['Riyaziyyat', 'Fizika', 'Kimya'], maxScores: [150, 150, 100] }
+        }
+    },
+    2: {
+        name: '2-ci qrup',
+        subjects: ['Riyaziyyat', 'Tarix', 'Coğrafiya'],
+        maxScores: [150, 150, 100]
+    },
+    3: {
+        name: '3-cü qrup',
+        subGroups: {
+            'DT': { name: 'DT', subjects: ['Azərbaycan dili', 'Tarix', 'Ədəbiyyat'], maxScores: [150, 150, 100] },
+            'TC': { name: 'TC', subjects: ['Azərbaycan dili', 'Tarix', 'Coğrafiya'], maxScores: [150, 150, 100] }
+        }
+    },
+    4: {
+        name: '4-cü qrup',
+        subjects: ['Biologiya', 'Kimya', 'Fizika'],
+        maxScores: [150, 150, 100]
+    }
+};
+
+function selectBlokGroup(groupNumber) {
+    selectedBlokGroup = groupNumber;
+    const groupData = blokGroupData[groupNumber];
+    
+    // Hide group select
+    document.getElementById('blokGroupSelect').classList.add('hidden');
+    
+    if (groupData.subGroups) {
+        // Show sub-group select
+        const subGroupSelect = document.getElementById('blokSubGroupSelect');
+        const subGroupTitle = document.getElementById('blokSubGroupTitle');
+        const subGroupButtons = document.getElementById('blokSubGroupButtons');
+        
+        subGroupTitle.textContent = 'Alt qrup seçin:';
+        subGroupButtons.innerHTML = '';
+        
+        Object.keys(groupData.subGroups).forEach(key => {
+            const button = document.createElement('button');
+            button.className = 'select-button';
+            button.textContent = groupData.subGroups[key].name;
+            button.onclick = () => selectBlokSubGroup(key);
+            subGroupButtons.appendChild(button);
+        });
+        
+        subGroupSelect.classList.remove('hidden');
+        
+        // Save navigation state
+        navigationHistory.push({
+            section: 'blok',
+            subsection: 'subgroup',
+            scrollPosition: 0
+        });
+    } else {
+        // No sub-groups, show calculator directly
+        blokSubjects = groupData.subjects;
+        const maxScores = groupData.maxScores;
+        showBlokCalculator(groupData.name, blokSubjects, maxScores);
+    }
+}
+
+function selectBlokSubGroup(subGroupKey) {
+    selectedBlokSubGroup = subGroupKey;
+    const groupData = blokGroupData[selectedBlokGroup];
+    const subGroupData = groupData.subGroups[subGroupKey];
+    
+    // Hide sub-group select
+    document.getElementById('blokSubGroupSelect').classList.add('hidden');
+    
+    blokSubjects = subGroupData.subjects;
+    const maxScores = subGroupData.maxScores;
+    showBlokCalculator(`${groupData.name} - ${subGroupData.name}`, blokSubjects, maxScores);
+    
+    // Save navigation state
+    navigationHistory.push({
+        section: 'blok',
+        subsection: 'calculator',
+        scrollPosition: 0
+    });
+}
+
+function showBlokCalculator(title, subjects, maxScores) {
+    const calculator = document.getElementById('blokCalculator');
+    const groupTitle = document.getElementById('blokGroupTitle');
+    const subjectsDiv = document.getElementById('blokSubjects');
+    
+    groupTitle.textContent = title;
+    subjectsDiv.innerHTML = '';
+    
+    subjects.forEach((subject, index) => {
+        const subjectDiv = document.createElement('div');
+        subjectDiv.className = 'subject-group';
+        subjectDiv.innerHTML = `
+            <h4>${subject} (maksimum: ${maxScores[index]} bal)</h4>
+            <div class="input-row">
+                <label>Düzgün qapalı (max 22):</label>
+                <input type="number" id="blok_${index}_duzgun" min="0" max="22" value="0">
+            </div>
+            <div class="input-row">
+                <label>Səhv qapalı (max 22):</label>
+                <input type="number" id="blok_${index}_sehv" min="0" max="22" value="0">
+            </div>
+            <div class="input-row">
+                <label>Açıq (max 5):</label>
+                <input type="number" id="blok_${index}_aciq" min="0" max="5" value="0">
+            </div>
+            <div class="input-row">
+                <label>Ətraflı (max 3):</label>
+                <input type="number" id="blok_${index}_etrafli" min="0" max="3" value="0">
+            </div>
+        `;
+        subjectsDiv.appendChild(subjectDiv);
+    });
+    
+    calculator.classList.remove('hidden');
+    document.getElementById('blokResult').classList.add('hidden');
+}
+
 function calculateBlok() {
     const groupData = blokGroupData[selectedBlokGroup];
     let subjects, maxScores;
-
+    
     if (groupData.subGroups && selectedBlokSubGroup) {
         const subGroupData = groupData.subGroups[selectedBlokSubGroup];
-        subjects  = subGroupData.subjects;
+        subjects = subGroupData.subjects;
         maxScores = subGroupData.maxScores;
     } else {
-        subjects  = groupData.subjects;
+        subjects = groupData.subjects;
         maxScores = groupData.maxScores;
     }
-
+    
     const scores = [];
     let totalScore = 0;
-
-    let hasError = false;
-
+    
     subjects.forEach((subject, index) => {
-        const duzgunInput  = document.getElementById(`blok_${index}_duzgun`);
-        const sehvInput    = document.getElementById(`blok_${index}_sehv`);
-        const aciqInput    = document.getElementById(`blok_${index}_aciq`);
-        const etrafliInput = document.getElementById(`blok_${index}_etrafli`);
-
-        const duzgun  = parseInt(duzgunInput.value)  || 0;
-        const sehv    = parseInt(sehvInput.value)    || 0;
-        const aciq    = parseInt(aciqInput.value)    || 0;
-        const etrafli = parseInt(etrafliInput.value) || 0;
-
-        // Əlavə yoxlama (inputlar boş ola bilər, amma mənfi dəyər qəbul etməyək)
-        if (duzgun < 0 || sehv < 0 || aciq < 0 || etrafli < 0 ||
-            duzgun > 22 || sehv > 22 || aciq > 5 || etrafli > 3) {
-            hasError = true;
-            return;  // bu fənn üçün hesabla, amma nəticə göstərmə
+        const duzgun = parseInt(document.getElementById(`blok_${index}_duzgun`).value) || 0;
+        const sehv = parseInt(document.getElementById(`blok_${index}_sehv`).value) || 0;
+        const aciq = parseInt(document.getElementById(`blok_${index}_aciq`).value) || 0;
+        const etrafli = parseInt(document.getElementById(`blok_${index}_etrafli`).value) || 0;
+        
+        // Validate inputs
+        if (duzgun > 22 || sehv > 22 || aciq > 5 || etrafli > 3) {
+            alert('Zəhmət olmasa düzgün qiymətlər daxil edin!');
+            return;
         }
-
-        // Qapalı suallar balı
+        
+        // Calculate score using provided formula
+        // Qapalı: (düzgün - 0.25*səhv) * 3.03
         let qapaliScore = (duzgun - 0.25 * sehv) * 3.03;
         if (qapaliScore < 0) qapaliScore = 0;
-
-        // Açıq + ətraflı
+        
+        // Açıq və ətraflı: (açıq + 2*ətraflı) * 3.03
         const aciqEtrafliScore = (aciq + 2 * etrafli) * 3.03;
-
-        // Ümumi faiz
-        const percent = qapaliScore + aciqEtrafliScore;
-
-        // Fənn üzrə son bal (max limiti aşmasın)
-        let finalScore = (percent / 100) * maxScores[index];
-        finalScore = Math.min(finalScore, maxScores[index]);
-
-        scores.push({
-            subject,
-            score: finalScore,
-            maxScore: maxScores[index]
-        });
-
-        totalScore += finalScore;
+        
+        // Total for this subject
+        let subjectScore = qapaliScore + aciqEtrafliScore;
+        subjectScore = Math.min(subjectScore, maxScores[index]);
+        
+        scores.push({ subject, score: subjectScore, maxScore: maxScores[index] });
+        totalScore += subjectScore;
     });
-
-    // Bütün fənnlər üçün xəta varsa
-    if (hasError) {
-        alert('Bəzi fənlərdə maksimum bal limitləri aşılıb!\n(Zəhmət olmasa 0–22, 0–5, 0–3 aralığında daxil edin)');
-        return;
-    }
-
-    // Ümumi balı 400-ə limitlə
+    
     totalScore = Math.min(totalScore, 400);
-
-    // Qiymət (grade) müəyyənləşdirmə
+    
+    // Determine grade
     let grade = '';
     let gradeClass = '';
-
-    if (totalScore >= 400) {
+    
+    if (totalScore === 0) {
+        grade = '0 BAL';
+        gradeClass = 'weak';
+    } else if (totalScore >= 400) {
         grade = 'MÜVƏFFƏQİYYƏTLƏ KEÇDİNİZ';
         gradeClass = 'excellent';
     } else if (totalScore >= 250) {
@@ -404,14 +513,14 @@ function calculateBlok() {
         grade = 'ZƏİF';
         gradeClass = 'weak';
     } else {
-        grade = '0 BAL';
+        grade = 'YAXŞI OLACAQ';
         gradeClass = 'weak';
     }
-
-    // Nəticəni ekrana çıxart
+    
+    // Display result
     const resultDiv = document.getElementById('blokResult');
     let statsHTML = '<div class="result-stats"><h4>Fənlər üzrə ballar:</h4>';
-
+    
     scores.forEach(item => {
         statsHTML += `
             <div class="stat-item">
@@ -420,9 +529,9 @@ function calculateBlok() {
             </div>
         `;
     });
-
+    
     statsHTML += '</div>';
-
+    
     resultDiv.innerHTML = `
         ${statsHTML}
         <div class="result-total">
@@ -434,14 +543,15 @@ function calculateBlok() {
             ${grade}
         </div>
     `;
-
+    
     resultDiv.classList.remove('hidden');
-
-    // Nəticəyə scroll
+    
+    // Scroll to result
     setTimeout(() => {
         resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }, 100);
 }
+
 // ========================================
 // YAŞ HESABLAYICI
 // ========================================

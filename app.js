@@ -170,142 +170,104 @@ function goBack() {
 }
 
 // ========================================
-// BURAXILIŞ BAL HESABLAMA
+// BURAXILIŞ BAL HESABLAMA - 9-CU SİNİF
 // ========================================
-let selectedBuraxilisClass = null;
-
-function selectBuraxilisClass(classNumber) {
-    selectedBuraxilisClass = classNumber;
-    
+function selectBuraxilisClass9() {
     // Hide class select
     document.getElementById('buraxilisClassSelect').classList.add('hidden');
     
-    // Show calculator
-    const calculator = document.getElementById('buraxilisCalculator');
+    // Show 9-cu sinif calculator
+    const calculator = document.getElementById('buraxilisCalculator9');
     calculator.classList.remove('hidden');
     
-    // Set title
-    document.getElementById('buraxilisClassTitle').textContent = 
-        `${classNumber}-${classNumber === 9 ? 'cu' : 'ci'} sinif buraxılış imtahanı`;
+    // Reset inputs
+    document.getElementById('azQapali9').value = '';
+    document.getElementById('azAciq9').value = '';
+    document.getElementById('riyQapali9').value = '';
+    document.getElementById('riyAciq9').value = '';
+    document.getElementById('riyEtrafli9').value = '';
+    document.getElementById('xariciSecim9').value = '';
+    document.getElementById('xariciQapali9').value = '';
+    document.getElementById('xariciAciq9').value = '';
+    document.getElementById('xariciYazili9').value = '';
     
-    // Reset inputs with placeholders
-    document.getElementById('azQapali').value = '';
-    document.getElementById('azAciq').value = '';
-    document.getElementById('riyQapali').value = '';
-    document.getElementById('riyAciq').value = '';
-    document.getElementById('riyEtrafli').value = '';
-    
-    // Xarici dil inputs - different for 9th grade
-    if (classNumber === 9) {
-        document.getElementById('xariciSecim').value = '';
-        document.getElementById('xariciQapali').value = '';
-        document.getElementById('xariciAciq').value = '';
-        document.getElementById('xariciYazili').value = '';
-        
-        document.getElementById('xariciSecim').placeholder = '0';
-        document.getElementById('xariciQapali').placeholder = '0';
-        document.getElementById('xariciAciq').placeholder = '0';
-        document.getElementById('xariciYazili').placeholder = '0';
-    } else {
-        document.getElementById('xariciQapali11').value = '';
-        document.getElementById('xariciAciq11').value = '';
-        
-        document.getElementById('xariciQapali11').placeholder = '0';
-        document.getElementById('xariciAciq11').placeholder = '0';
-    }
-
-    document.getElementById('azQapali').placeholder = '0';
-    document.getElementById('azAciq').placeholder = '0';
-    document.getElementById('riyQapali').placeholder = '0';
-    document.getElementById('riyAciq').placeholder = '0';
-    document.getElementById('riyEtrafli').placeholder = '0';
+    // Set placeholders
+    document.getElementById('azQapali9').placeholder = '0';
+    document.getElementById('azAciq9').placeholder = '0';
+    document.getElementById('riyQapali9').placeholder = '0';
+    document.getElementById('riyAciq9').placeholder = '0';
+    document.getElementById('riyEtrafli9').placeholder = '0';
+    document.getElementById('xariciSecim9').placeholder = '0';
+    document.getElementById('xariciQapali9').placeholder = '0';
+    document.getElementById('xariciAciq9').placeholder = '0';
+    document.getElementById('xariciYazili9').placeholder = '0';
     
     // Hide result
-    document.getElementById('buraxilisResult').classList.add('hidden');
+    document.getElementById('buraxilisResult9').classList.add('hidden');
     
     // Save navigation state
     navigationHistory.push({
         section: 'buraxilis',
-        subsection: 'calculator',
+        subsection: 'calculator9',
         scrollPosition: 0
     });
 }
 
-function calculateBuraxilis() {
+function calculateBuraxilis9() {
     // Get input values
-    const azQapali = parseInt(document.getElementById('azQapali').value) || 0;
-    const azAciq = parseInt(document.getElementById('azAciq').value) || 0;
-    const riyQapali = parseInt(document.getElementById('riyQapali').value) || 0;
-    const riyAciq = parseInt(document.getElementById('riyAciq').value) || 0;
-    const riyEtrafli = parseInt(document.getElementById('riyEtrafli').value) || 0;
+    const azQapali = parseInt(document.getElementById('azQapali9').value) || 0;
+    const azAciq = parseInt(document.getElementById('azAciq9').value) || 0;
+    const riyQapali = parseInt(document.getElementById('riyQapali9').value) || 0;
+    const riyAciq = parseInt(document.getElementById('riyAciq9').value) || 0;
+    const riyEtrafli = parseInt(document.getElementById('riyEtrafli9').value) || 0;
+    const xariciSecim = parseInt(document.getElementById('xariciSecim9').value) || 0;
+    const xariciQapali = parseInt(document.getElementById('xariciQapali9').value) || 0;
+    const xariciAciq = parseInt(document.getElementById('xariciAciq9').value) || 0;
+    const xariciYazili = parseFloat(document.getElementById('xariciYazili9').value) || 0;
     
-    let xariciScore;
-    
-    if (selectedBuraxilisClass === 9) {
-        // 9-cu sinif xarici dil - yeni düstur
-        const xariciSecim = parseInt(document.getElementById('xariciSecim').value) || 0;
-        const xariciQapali = parseInt(document.getElementById('xariciQapali').value) || 0;
-        const xariciAciq = parseInt(document.getElementById('xariciAciq').value) || 0;
-        const xariciYazili = parseFloat(document.getElementById('xariciYazili').value) || 0;
-        
-        // Validate inputs for 9th grade
-        if (xariciSecim > 4 || xariciQapali > 22 || xariciAciq > 2 || xariciYazili < 0 || xariciYazili > 5) {
-            alert('Zəhmət olmasa düzgün qiymətlər daxil edin!\nSeçim: max 4\nQapalı: max 22\nAçıq: max 2\nYazılı: 0-5 aralığında');
-            return;
-        }
-        
-        // Calculate selection score
-        let secimScore = 0;
-        if (xariciSecim === 4) {
-            secimScore = 1;
-        } else if (xariciSecim === 3) {
-            secimScore = 0.5;
-        } else {
-            secimScore = 0;
-        }
-        
-        // Calculate xarici dil score using new formula
-        // Seçim (1 bal) + Açıq (2×2=4 bal) + Qapalı (22×1=22 bal) + Yazılı (0-5 bal) = max 32 bal
-        const xariciRawScore = secimScore + (xariciAciq * 1) + (xariciQapali * 1) + xariciYazili;
-        
-        // Apply formula: (cəmi × 100) ÷ 30
-        xariciScore = (xariciRawScore * 100) / 30;
-        xariciScore = Math.min(xariciScore, 100);
-        
-    } else {
-        // 11-ci sinif xarici dil - köhnə düstur
-        const xariciQapali11 = parseInt(document.getElementById('xariciQapali11').value) || 0;
-        const xariciAciq11 = parseInt(document.getElementById('xariciAciq11').value) || 0;
-        
-        // Validate inputs for 11th grade
-        if (xariciQapali11 > 23 || xariciAciq11 > 7) {
-            alert('Zəhmət olmasa düzgün qiymətlər daxil edin!');
-            return;
-        }
-        
-        // Perfect score check for 11th grade
-        if (xariciQapali11 === 23 && xariciAciq11 === 7) {
-            xariciScore = 100;
-        } else {
-            xariciScore = 2.7 * (2 * xariciAciq11 + xariciQapali11);
-            xariciScore = Math.min(xariciScore, 100);
-        }
-    }
-    
-    // Validate Azərbaycan dili and Riyaziyyat inputs
-    if (azQapali > 20 || azAciq > 10 || riyQapali > 13 || riyAciq > 5 || riyEtrafli > 7) {
-        alert('Zəhmət olmasa düzgün qiymətlər daxil edin!');
+    // Validate Azərbaycan dili
+    if (azQapali > 20 || azAciq > 10) {
+        alert('Azərbaycan dili: Qapalı max 20, Açıq max 10!');
         return;
     }
     
-    // Calculate scores using provided formulas
-    // Azərbaycan dili: 2.5 * (2*açıq + qapalı)
+    // Validate Riyaziyyat
+    if (riyQapali > 13 || riyAciq > 5 || riyEtrafli > 7) {
+        alert('Riyaziyyat: Qapalı max 13, Açıq max 5, Ətraflı max 7!');
+        return;
+    }
+    
+    // Validate Xarici dil (9-cu sinif)
+    if (xariciSecim > 4 || xariciQapali > 22 || xariciAciq > 2 || xariciYazili < 0 || xariciYazili > 5) {
+        alert('Xarici dil: Seçim max 4, Qapalı max 22, Açıq max 2, Yazılı 0-5 aralığında!');
+        return;
+    }
+    
+    // Calculate Azərbaycan dili: 2.5 * (2*açıq + qapalı)
     let azScore = 2.5 * (2 * azAciq + azQapali);
     azScore = Math.min(azScore, 100);
     
-    // Riyaziyyat: 3.125 * (2*ətraflı + açıq + qapalı)
+    // Calculate Riyaziyyat: 3.125 * (2*ətraflı + açıq + qapalı)
     let riyScore = 3.125 * (2 * riyEtrafli + riyAciq + riyQapali);
     riyScore = Math.min(riyScore, 100);
+    
+    // Calculate Xarici dil (9-cu sinif düsturu)
+    // Seçim balı hesabla
+    let secimScore = 0;
+    if (xariciSecim === 4) {
+        secimScore = 1;
+    } else if (xariciSecim === 3) {
+        secimScore = 0.5;
+    } else {
+        secimScore = 0;
+    }
+    
+    // Xarici dil: Seçim (1 bal) + Açıq (2×2=4 bal) + Qapalı (22×1=22 bal) + Yazılı (0-5 bal) = max 32 bal
+    const xariciRawScore = secimScore + (xariciAciq * 2) + (xariciQapali * 1) + xariciYazili;
+    
+    // Düstur: (cəmi × 100) ÷ 30
+    let xariciScore = (xariciRawScore * 100) / 30;
+    xariciScore = Math.min(xariciScore, 100);
     
     // Total score
     let totalScore = azScore + riyScore + xariciScore;
@@ -339,7 +301,162 @@ function calculateBuraxilis() {
     }
     
     // Display result
-    const resultDiv = document.getElementById('buraxilisResult');
+    const resultDiv = document.getElementById('buraxilisResult9');
+    resultDiv.innerHTML = `
+        <div class="result-stats">
+            <h4>Fənlər üzrə ballar:</h4>
+            <div class="stat-item">
+                <span class="stat-label">Azərbaycan dili:</span>
+                <span class="stat-value">${azScore.toFixed(2)}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Riyaziyyat:</span>
+                <span class="stat-value">${riyScore.toFixed(2)}</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Xarici dil:</span>
+                <span class="stat-value">${xariciScore.toFixed(2)}</span>
+            </div>
+        </div>
+        <div class="result-total">
+            <div class="result-total-label">Ümumi bal</div>
+            <div class="result-total-value">${totalScore.toFixed(2)}</div>
+            <div class="result-total-label">/ 300</div>
+        </div>
+        <div class="result-grade ${gradeClass}">
+            ${grade}
+        </div>
+    `;
+    
+    resultDiv.classList.remove('hidden');
+    
+    // Scroll to result
+    setTimeout(() => {
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
+}
+
+// ========================================
+// BURAXILIŞ BAL HESABLAMA - 11-Cİ SİNİF
+// ========================================
+function selectBuraxilisClass11() {
+    // Hide class select
+    document.getElementById('buraxilisClassSelect').classList.add('hidden');
+    
+    // Show 11-ci sinif calculator
+    const calculator = document.getElementById('buraxilisCalculator11');
+    calculator.classList.remove('hidden');
+    
+    // Reset inputs
+    document.getElementById('azQapali11').value = '';
+    document.getElementById('azAciq11').value = '';
+    document.getElementById('riyQapali11').value = '';
+    document.getElementById('riyAciq11').value = '';
+    document.getElementById('riyEtrafli11').value = '';
+    document.getElementById('xariciQapali11').value = '';
+    document.getElementById('xariciAciq11').value = '';
+    
+    // Set placeholders
+    document.getElementById('azQapali11').placeholder = '0';
+    document.getElementById('azAciq11').placeholder = '0';
+    document.getElementById('riyQapali11').placeholder = '0';
+    document.getElementById('riyAciq11').placeholder = '0';
+    document.getElementById('riyEtrafli11').placeholder = '0';
+    document.getElementById('xariciQapali11').placeholder = '0';
+    document.getElementById('xariciAciq11').placeholder = '0';
+    
+    // Hide result
+    document.getElementById('buraxilisResult11').classList.add('hidden');
+    
+    // Save navigation state
+    navigationHistory.push({
+        section: 'buraxilis',
+        subsection: 'calculator11',
+        scrollPosition: 0
+    });
+}
+
+function calculateBuraxilis11() {
+    // Get input values
+    const azQapali = parseInt(document.getElementById('azQapali11').value) || 0;
+    const azAciq = parseInt(document.getElementById('azAciq11').value) || 0;
+    const riyQapali = parseInt(document.getElementById('riyQapali11').value) || 0;
+    const riyAciq = parseInt(document.getElementById('riyAciq11').value) || 0;
+    const riyEtrafli = parseInt(document.getElementById('riyEtrafli11').value) || 0;
+    const xariciQapali = parseInt(document.getElementById('xariciQapali11').value) || 0;
+    const xariciAciq = parseInt(document.getElementById('xariciAciq11').value) || 0;
+    
+    // Validate Azərbaycan dili
+    if (azQapali > 20 || azAciq > 10) {
+        alert('Azərbaycan dili: Qapalı max 20, Açıq max 10!');
+        return;
+    }
+    
+    // Validate Riyaziyyat
+    if (riyQapali > 13 || riyAciq > 5 || riyEtrafli > 7) {
+        alert('Riyaziyyat: Qapalı max 13, Açıq max 5, Ətraflı max 7!');
+        return;
+    }
+    
+    // Validate Xarici dil (11-ci sinif)
+    if (xariciQapali > 23 || xariciAciq > 7) {
+        alert('Xarici dil: Qapalı max 23, Açıq max 7!');
+        return;
+    }
+    
+    // Calculate Azərbaycan dili: 2.5 * (2*açıq + qapalı)
+    let azScore = 2.5 * (2 * azAciq + azQapali);
+    azScore = Math.min(azScore, 100);
+    
+    // Calculate Riyaziyyat: 3.125 * (2*ətraflı + açıq + qapalı)
+    let riyScore = 3.125 * (2 * riyEtrafli + riyAciq + riyQapali);
+    riyScore = Math.min(riyScore, 100);
+    
+    // Calculate Xarici dil (11-ci sinif düsturu)
+    let xariciScore;
+    
+    // Mükəmməl cavab yoxlaması: 23 qapalı və 7 açıq = 100 bal
+    if (xariciQapali === 23 && xariciAciq === 7) {
+        xariciScore = 100;
+    } else {
+        // Düstur: 2.7 × (2×açıq + qapalı)
+        xariciScore = 2.7 * (2 * xariciAciq + xariciQapali);
+        xariciScore = Math.min(xariciScore, 100);
+    }
+    
+    // Total score
+    let totalScore = azScore + riyScore + xariciScore;
+    totalScore = Math.min(totalScore, 300);
+    
+    // Determine grade
+    let grade = '';
+    let gradeClass = '';
+    
+    if (totalScore === 0) {
+        grade = '0 BAL';
+        gradeClass = 'weak';
+    } else if (totalScore >= 300) {
+        grade = 'MÜVƏFFƏQİYYƏTLƏ KEÇDİNİZ';
+        gradeClass = 'excellent';
+    } else if (totalScore >= 250) {
+        grade = 'ÇOX YAXŞI';
+        gradeClass = 'very-good';
+    } else if (totalScore >= 160) {
+        grade = 'YAXŞI';
+        gradeClass = 'good';
+    } else if (totalScore >= 140) {
+        grade = 'KAFİ';
+        gradeClass = 'sufficient';
+    } else if (totalScore >= 120) {
+        grade = 'ZƏİF';
+        gradeClass = 'weak';
+    } else {
+        grade = 'YAXŞI OLACAQ';
+        gradeClass = 'weak';
+    }
+    
+    // Display result
+    const resultDiv = document.getElementById('buraxilisResult11');
     resultDiv.innerHTML = `
         <div class="result-stats">
             <h4>Fənlər üzrə ballar:</h4>
@@ -722,20 +839,28 @@ function calculateAge() {
 // ========================================
 // BACK BUTTON NAVIGATION FIX
 // ========================================
-// Override goBack for buraxilis section
 const originalGoBack = goBack;
 goBack = function() {
     const buraxilisSection = document.getElementById('buraxilis');
     const blokSection = document.getElementById('blok');
     
-    // Check if we're in buraxilis calculator
+    // Check if we're in buraxilis calculator 9
     if (!buraxilisSection.classList.contains('hidden')) {
-        const calculator = document.getElementById('buraxilisCalculator');
+        const calculator9 = document.getElementById('buraxilisCalculator9');
+        const calculator11 = document.getElementById('buraxilisCalculator11');
         const classSelect = document.getElementById('buraxilisClassSelect');
         
-        if (!calculator.classList.contains('hidden')) {
+        if (!calculator9.classList.contains('hidden')) {
             // Return to class select
-            calculator.classList.add('hidden');
+            calculator9.classList.add('hidden');
+            classSelect.classList.remove('hidden');
+            navigationHistory.pop();
+            return;
+        }
+        
+        if (!calculator11.classList.contains('hidden')) {
+            // Return to class select
+            calculator11.classList.add('hidden');
             classSelect.classList.remove('hidden');
             navigationHistory.pop();
             return;

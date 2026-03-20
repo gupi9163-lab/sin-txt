@@ -133,6 +133,60 @@ function showSection(sectionId) {
 }
 
 function goBack() {
+    const buraxilisSection = document.getElementById('buraxilis');
+    const blokSection = document.getElementById('blok');
+    
+    // Check if we're in buraxilis calculator 9
+    if (!buraxilisSection.classList.contains('hidden')) {
+        const calculator9 = document.getElementById('buraxilisCalculator9');
+        const calculator11 = document.getElementById('buraxilisCalculator11');
+        const classSelect = document.getElementById('buraxilisClassSelect');
+        
+        if (!calculator9.classList.contains('hidden')) {
+            // Return to class select
+            calculator9.classList.add('hidden');
+            classSelect.classList.remove('hidden');
+            navigationHistory.pop();
+            return;
+        }
+        
+        if (!calculator11.classList.contains('hidden')) {
+            // Return to class select
+            calculator11.classList.add('hidden');
+            classSelect.classList.remove('hidden');
+            navigationHistory.pop();
+            return;
+        }
+    }
+    
+    // Check if we're in blok calculator or subgroup
+    if (!blokSection.classList.contains('hidden')) {
+        const calculator = document.getElementById('blokCalculator');
+        const subGroupSelect = document.getElementById('blokSubGroupSelect');
+        const groupSelect = document.getElementById('blokGroupSelect');
+        
+        if (!calculator.classList.contains('hidden')) {
+            // Return to sub-group select or group select
+            calculator.classList.add('hidden');
+            
+            if (blokGroupData[selectedBlokGroup].subGroups) {
+                subGroupSelect.classList.remove('hidden');
+            } else {
+                groupSelect.classList.remove('hidden');
+            }
+            navigationHistory.pop();
+            return;
+        }
+        
+        if (!subGroupSelect.classList.contains('hidden')) {
+            // Return to group select
+            subGroupSelect.classList.add('hidden');
+            groupSelect.classList.remove('hidden');
+            navigationHistory.pop();
+            return;
+        }
+    }
+    
     // Remove current page from history
     navigationHistory.pop();
     
@@ -835,69 +889,6 @@ function calculateAge() {
         resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }, 100);
 }
-
-// ========================================
-// BACK BUTTON NAVIGATION FIX
-// ========================================
-const originalGoBack = goBack;
-goBack = function() {
-    const buraxilisSection = document.getElementById('buraxilis');
-    const blokSection = document.getElementById('blok');
-    
-    // Check if we're in buraxilis calculator 9
-    if (!buraxilisSection.classList.contains('hidden')) {
-        const calculator9 = document.getElementById('buraxilisCalculator9');
-        const calculator11 = document.getElementById('buraxilisCalculator11');
-        const classSelect = document.getElementById('buraxilisClassSelect');
-        
-        if (!calculator9.classList.contains('hidden')) {
-            // Return to class select
-            calculator9.classList.add('hidden');
-            classSelect.classList.remove('hidden');
-            navigationHistory.pop();
-            return;
-        }
-        
-        if (!calculator11.classList.contains('hidden')) {
-            // Return to class select
-            calculator11.classList.add('hidden');
-            classSelect.classList.remove('hidden');
-            navigationHistory.pop();
-            return;
-        }
-    }
-    
-    // Check if we're in blok calculator or subgroup
-    if (!blokSection.classList.contains('hidden')) {
-        const calculator = document.getElementById('blokCalculator');
-        const subGroupSelect = document.getElementById('blokSubGroupSelect');
-        const groupSelect = document.getElementById('blokGroupSelect');
-        
-        if (!calculator.classList.contains('hidden')) {
-            // Return to sub-group select or group select
-            calculator.classList.add('hidden');
-            
-            if (blokGroupData[selectedBlokGroup].subGroups) {
-                subGroupSelect.classList.remove('hidden');
-            } else {
-                groupSelect.classList.remove('hidden');
-            }
-            navigationHistory.pop();
-            return;
-        }
-        
-        if (!subGroupSelect.classList.contains('hidden')) {
-            // Return to group select
-            subGroupSelect.classList.add('hidden');
-            groupSelect.classList.remove('hidden');
-            navigationHistory.pop();
-            return;
-        }
-    }
-    
-    // Default behavior
-    originalGoBack();
-};
 
 // ========================================
 // INITIALIZATION

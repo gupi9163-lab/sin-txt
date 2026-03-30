@@ -494,7 +494,7 @@ body {
 /* iOS Install Info */
 .ios-info {
     position: fixed;
-    bottom: 70px;
+    bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 999;
@@ -504,20 +504,20 @@ body {
 .ios-info-content {
     background: var(--bg-secondary);
     border: 2px solid var(--primary-color);
-    border-radius: 12px;
-    padding: 12px 20px;
+    border-radius: 8px;
+    padding: 8px 16px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     box-shadow: var(--shadow-lg);
 }
 
 .ios-info-icon {
-    font-size: 20px;
+    font-size: 12px;
 }
 
 .ios-info-text {
-    font-size: 12px;
+    font-size: 8px;
     font-weight: 600;
     color: var(--text-primary);
 }

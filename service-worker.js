@@ -1,5 +1,5 @@
 // CACHE VERSION - Developer tərəfindən artırılmalıdır
-const CACHE_VERSION = 'v1.2.2';
+const CACHE_VERSION = 'v1.2.3';
 const CACHE_NAME = `bal-calc-${CACHE_VERSION}`;
 
 const ASSETS_TO_CACHE = [

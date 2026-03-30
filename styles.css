@@ -466,7 +466,7 @@ body {
 /* Install Prompt */
 .install-prompt {
     position: fixed;
-    bottom: 20px;
+    bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
@@ -477,9 +477,9 @@ body {
     background: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 20px;
-    padding: 8px 16px;
-    font-size: 10px;
+    border-radius: 30px;
+    padding: 16px 20px;
+    font-size: 12px;
     font-weight: 600;
     cursor: pointer;
     box-shadow: var(--shadow-lg);

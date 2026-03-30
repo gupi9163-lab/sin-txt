@@ -494,7 +494,7 @@ body {
 /* iOS Install Info */
 .ios-info {
     position: fixed;
-    bottom: 20px;
+    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 999;

@@ -494,7 +494,7 @@ body {
 /* iOS Install Info */
 .ios-info {
     position: fixed;
-    bottom: 2px;
+    bottom: 1px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 999;
@@ -503,12 +503,12 @@ body {
 
 .ios-info-content {
     background: var(--bg-secondary);
-    border: 2px solid var(--primary-color);
-    border-radius: 4px;
-    padding: 4px 8px;
+    border: 1px solid var(--primary-color);
+    border-radius: 2px;
+    padding: 2px 4px;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 2px;
     box-shadow: var(--shadow-lg);
 }
 

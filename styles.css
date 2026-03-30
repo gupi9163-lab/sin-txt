@@ -495,7 +495,7 @@ body {
 .ios-info {
     position: fixed;
     bottom: 10px;
-    left: 50%;
+    left: 30%;
     transform: translateX(-50%);
     z-index: 999;
     animation: slideUp 0.3s ease-out;

@@ -335,22 +335,22 @@ function calculateBuraxilis9() {
         grade = '0 BAL';
         gradeClass = 'weak';
     } else if (totalScore >= 300) {
-        grade = 'MÜVƏFFƏQİYYƏTLƏ KEÇDİNİZ';
+        grade = '🎉 MÜVƏFFƏQİYYƏTLƏ KEÇDİNİZ! ✅';
         gradeClass = 'excellent';
-    } else if (totalScore >= 250) {
-        grade = 'ÇOX YAXŞI';
+    } else if (totalScore >= 240) {
+        grade = '🔥 ÇOX YAXŞI 📊';
         gradeClass = 'very-good';
-    } else if (totalScore >= 160) {
-        grade = 'YAXŞI';
+    } else if (totalScore >= 180) {
+        grade = '💣 YAXŞI 📈';
         gradeClass = 'good';
-    } else if (totalScore >= 140) {
-        grade = 'KAFİ';
-        gradeClass = 'sufficient';
     } else if (totalScore >= 120) {
-        grade = 'ZƏİF';
+        grade = '🫂 KAFİ 📉';
+        gradeClass = 'sufficient';
+    } else if (totalScore >= 60) {
+        grade = '🎭 ZƏİF 📴';
         gradeClass = 'weak';
     } else {
-        grade = 'YAXŞI OLACAQ';
+        grade = '🗿 YAXŞI OLACAQ 🆒';
         gradeClass = 'weak';
     }
     
@@ -490,22 +490,22 @@ function calculateBuraxilis11() {
         grade = '0 BAL';
         gradeClass = 'weak';
     } else if (totalScore >= 300) {
-        grade = 'MÜVƏFFƏQİYYƏTLƏ KEÇDİNİZ';
+        grade = '🎉 MÜVƏFFƏQİYYƏTLƏ KEÇDİNİZ! ✅';
         gradeClass = 'excellent';
-    } else if (totalScore >= 250) {
-        grade = 'ÇOX YAXŞI';
+    } else if (totalScore >= 240) {
+        grade = '🔥 ÇOX YAXŞI 📊';
         gradeClass = 'very-good';
-    } else if (totalScore >= 160) {
-        grade = 'YAXŞI';
+    } else if (totalScore >= 180) {
+        grade = '💣 YAXŞI 📈';
         gradeClass = 'good';
-    } else if (totalScore >= 140) {
-        grade = 'KAFİ';
-        gradeClass = 'sufficient';
     } else if (totalScore >= 120) {
-        grade = 'ZƏİF';
+        grade = '🫂 KAFİ 📉';
+        gradeClass = 'sufficient';
+    } else if (totalScore >= 60) {
+        grade = '🎭 ZƏİF 📴';
         gradeClass = 'weak';
     } else {
-        grade = 'YAXŞI OLACAQ';
+        grade = '🗿 YAXŞI OLACAQ 🆒';
         gradeClass = 'weak';
     }
     
@@ -768,22 +768,22 @@ function calculateBlok() {
         grade = '0 BAL';
         gradeClass = 'weak';
     } else if (totalScore >= 400) {
-        grade = 'MÜVƏFFƏQİYYƏTLƏ KEÇDİNİZ';
+        grade = '🎉 MÜVƏFFƏQİYYƏTLƏ KEÇDİNİZ! ✅';
         gradeClass = 'excellent';
-    } else if (totalScore >= 250) {
-        grade = 'ÇOX YAXŞI';
+    } else if (totalScore >= 300) {
+        grade = '🔥 ÇOX YAXŞI 📊';
         gradeClass = 'very-good';
-    } else if (totalScore >= 160) {
-        grade = 'YAXŞI';
+    } else if (totalScore >= 220) {
+        grade = '💣 YAXŞI 📈';
         gradeClass = 'good';
     } else if (totalScore >= 140) {
-        grade = 'KAFİ';
+        grade = '🫂 KAFİ 📉';
         gradeClass = 'sufficient';
-    } else if (totalScore >= 120) {
-        grade = 'ZƏİF';
+    } else if (totalScore >= 60) {
+        grade = '🎭 ZƏİF 📴';
         gradeClass = 'weak';
     } else {
-        grade = 'YAXŞI OLACAQ';
+        grade = '🗿 YAXŞI OLACAQ 🆒';
         gradeClass = 'weak';
     }
     

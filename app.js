@@ -717,7 +717,7 @@ function calculateBlok() {
         const duzgun = parseInt(document.getElementById(`blok_${index}_duzgun`).value);
         const sehv = parseInt(document.getElementById(`blok_${index}_sehv`).value);
         const aciq = parseInt(document.getElementById(`blok_${index}_aciq`).value);
-        const etrafliInput = Number(document.getElementById(`blok_${index}_etrafli`).value.replace(",", "."));
+        const etrafli = Number(document.getElementById(`blok_${index}_etrafli`).value.replace(",", "."));
         
         // Validate inputs
         if (duzgun > 22 || sehv > 22 || aciq > 5 || etrafli > 3) {

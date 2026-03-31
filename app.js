@@ -698,7 +698,7 @@ function calculateBlok() {
         const duzgunInput = document.getElementById(`blok_${index}_duzgun`).value;
         const sehvInput = document.getElementById(`blok_${index}_sehv`).value;
         const aciqInput = document.getElementById(`blok_${index}_aciq`).value;
-        const etrafliInput = document.getElementById(`blok_${index}_etrafli`).value;
+        const etrafliInput = Number(document.getElementById(`blok_${index}_etrafli`).value.replace(",", "."));
         
         // Check if any input is empty
         if (duzgunInput === '' || sehvInput === '' || aciqInput === '' || etrafliInput === '') {

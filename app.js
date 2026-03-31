@@ -270,10 +270,10 @@ function selectBuraxilisClass9() {
 function calculateBuraxilis9() {
     // Get input values
     const azQapali = parseInt(document.getElementById('azQapali9').value) || 0;
-    const azAciq = parseInt(document.getElementById('azAciq9').value) || 0;
+    const azAciq = Number(document.getElementById('azAciq9').value.replace(",", ".")) || 0;
     const riyQapali = parseInt(document.getElementById('riyQapali9').value) || 0;
     const riyAciq = parseInt(document.getElementById('riyAciq9').value) || 0;
-    const riyEtrafli = parseInt(document.getElementById('riyEtrafli9').value) || 0;
+    const riyEtrafli = Number(document.getElementById('riyEtrafli9').value.replace(",", ".")) || 0;
     const xariciSecim = parseInt(document.getElementById('xariciSecim9').value) || 0;
     const xariciQapali = parseInt(document.getElementById('xariciQapali9').value) || 0;
     const xariciAciq = parseInt(document.getElementById('xariciAciq9').value) || 0;

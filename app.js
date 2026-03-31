@@ -433,12 +433,12 @@ function selectBuraxilisClass11() {
 function calculateBuraxilis11() {
     // Get input values
     const azQapali = parseInt(document.getElementById('azQapali11').value) || 0;
-    const azAciq = parseInt(document.getElementById('azAciq11').value) || 0;
+    const azAciq = Number(document.getElementById('azAciq11').value.replace(",", ".")) || 0;
     const riyQapali = parseInt(document.getElementById('riyQapali11').value) || 0;
     const riyAciq = parseInt(document.getElementById('riyAciq11').value) || 0;
-    const riyEtrafli = parseInt(document.getElementById('riyEtrafli11').value) || 0;
+    const riyEtrafli = Number(document.getElementById('riyEtrafli11').value.replace(",", ".")) || 0;
     const xariciQapali = parseInt(document.getElementById('xariciQapali11').value) || 0;
-    const xariciAciq = parseInt(document.getElementById('xariciAciq11').value) || 0;
+    const xariciAciq = Number(document.getElementById('xariciAciq11').value.replace(",", ".")) || 0;
     
     // Validate Azərbaycan dili
     if (azQapali > 20 || azAciq > 10) {
